@@ -128,6 +128,8 @@ export default async function HomePage() {
               gradientTo={settings?.ctaGradientTo}
               titleFont={settings?.ctaTitleFont}
               subtitleFont={settings?.ctaSubtitleFont}
+              bgImage={settings?.ctaBgImage}
+              bgOpacity={settings?.ctaBgOpacity}
             />
           </ScrollReveal>
         )}

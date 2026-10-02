@@ -9,22 +9,31 @@ interface CtaProps {
   gradientTo?: string | null;
   titleFont?: string | null;
   subtitleFont?: string | null;
+  bgImage?: string | null;
+  bgOpacity?: number | null;
 }
 
-export default function Cta({ title, subtitle, buttonText, buttonLink, bgColor, textColor, gradient, gradientTo, titleFont, subtitleFont }: CtaProps) {
+export default function Cta({ title, subtitle, buttonText, buttonLink, bgColor, textColor, gradient, gradientTo, titleFont, subtitleFont, bgImage, bgOpacity }: CtaProps) {
   const bg = bgColor || "#0D9488";
   const fg = textColor || "#ffffff";
-  const background = gradient
+  const colorBg = gradient
     ? `linear-gradient(135deg, ${bg}, ${gradientTo || "#14B8A6"})`
     : bg;
+  const overlayOpacity = bgOpacity ?? 0.85;
 
   return (
-    <section className="cta" style={{ background, color: fg }}>
-      <div className="cta-text">
+    <section className="cta" style={{ position: "relative", overflow: "hidden", background: colorBg, color: fg }}>
+      {bgImage && (
+        <>
+          <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${bgImage})`, backgroundSize: "cover", backgroundPosition: "center" }} />
+          <div style={{ position: "absolute", inset: 0, background: colorBg, opacity: overlayOpacity }} />
+        </>
+      )}
+      <div className="cta-text" style={{ position: "relative", zIndex: 1 }}>
         <h2 style={{ fontFamily: `'${titleFont || "Plus Jakarta Sans"}', sans-serif`, color: fg }}>{title || "Punya Ide Digital untuk Bisnis Anda?"}</h2>
         <p style={{ fontFamily: `'${subtitleFont || "Plus Jakarta Sans"}', sans-serif`, color: fg }}>{subtitle || "Mari wujudkan bersama Magnus System."}</p>
       </div>
-      <a href={buttonLink || "#contact-section"} className="btn btn-white" style={{ fontSize: "14px", padding: "14px 32px", borderRadius: "10px", fontWeight: 700, whiteSpace: "nowrap" }}>
+      <a href={buttonLink || "#contact-section"} className="btn btn-white" style={{ position: "relative", zIndex: 1, fontSize: "14px", padding: "14px 32px", borderRadius: "10px", fontWeight: 700, whiteSpace: "nowrap" }}>
         {buttonText || "Konsultasi Gratis"} <span>→</span>
       </a>
     </section>

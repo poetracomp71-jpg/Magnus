@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const FONT_OPTIONS = ["Plus Jakarta Sans", "Space Grotesk", "Inter", "Poppins"];
 
@@ -8,6 +8,8 @@ export default function CtaPage() {
   const [settings, setSettings] = useState<any>({});
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     fetch("/api/admin?resource=settings").then((r) => r.json()).then(setSettings);
@@ -53,9 +55,27 @@ export default function CtaPage() {
 
   const isActive = settings.ctaActive !== false;
   const bg = settings.ctaColor || "#0D9488";
-  const previewBg = settings.ctaGradient
+  const colorBg = settings.ctaGradient
     ? `linear-gradient(135deg, ${bg}, ${settings.ctaGradientTo || "#14B8A6"})`
     : bg;
+  const previewBg = settings.ctaBgImage ? undefined : colorBg;
+
+  const handleBgUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+    try {
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      const data = await res.json();
+      if (data.url) setSettings({ ...settings, ctaBgImage: data.url });
+    } catch (err) {
+      console.error("Upload failed:", err);
+    }
+    setUploading(false);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
 
   return (
     <div>
@@ -111,16 +131,45 @@ export default function CtaPage() {
             {settings.ctaGradient && (
               <ColorField label="Warna Gradasi Ke" field="ctaGradientTo" defaultVal="#14B8A6" />
             )}
+            <div style={fieldStyle}>
+              <label style={labelStyle}>Gambar Background (opsional, timpa di atas warna)</label>
+              <input ref={fileInputRef} type="file" accept="image/*" onChange={handleBgUpload} style={{ display: "none" }} />
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                disabled={uploading}
+                style={{ width: "100%", padding: "0.75rem 1rem", background: "#f5f7f8", border: "2px dashed #d9e1e9", borderRadius: "8px", color: "#657789", fontSize: "0.9rem", cursor: "pointer" }}
+              >
+                {uploading ? "⏳ Uploading..." : "📁 Browse File (PNG, JPG)"}
+              </button>
+            </div>
+            {settings.ctaBgImage && (
+              <>
+                <div style={{ marginTop: "-0.5rem", marginBottom: "1rem", position: "relative", display: "inline-block", width: "100%" }}>
+                  <img src={settings.ctaBgImage} alt="" style={{ width: "100%", maxHeight: "140px", objectFit: "cover", borderRadius: "8px", border: "1px solid #e0e0e0" }} />
+                  <button onClick={() => setSettings({ ...settings, ctaBgImage: "" })} style={{ position: "absolute", top: "6px", right: "6px", background: "#ef4444", color: "white", border: "none", borderRadius: "50%", width: "22px", height: "22px", fontSize: "11px", cursor: "pointer", display: "grid", placeItems: "center" }}>✕</button>
+                </div>
+                <div style={fieldStyle}>
+                  <label style={labelStyle}>Opacity Warna di Atas Gambar ({Math.round((settings.ctaBgOpacity ?? 0.85) * 100)}%)</label>
+                  <input type="range" min="0" max="1" step="0.05" value={settings.ctaBgOpacity ?? 0.85} onChange={(e) => setSettings({ ...settings, ctaBgOpacity: parseFloat(e.target.value) })} style={{ width: "100%", accentColor: "#0D9488" }} />
+                </div>
+              </>
+            )}
           </div>
 
           <div style={cardStyle}>
             <h2 style={{ fontSize: "1.1rem", fontWeight: 600, marginBottom: "1.5rem" }}>👁️ Preview</h2>
-            <div style={{ background: previewBg, borderRadius: "16px", padding: "36px 40px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "1.5rem" }}>
-              <div>
+            <div style={{ position: "relative", overflow: "hidden", background: previewBg, borderRadius: "16px", padding: "36px 40px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "1.5rem" }}>
+              {settings.ctaBgImage && (
+                <>
+                  <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${settings.ctaBgImage})`, backgroundSize: "cover", backgroundPosition: "center" }} />
+                  <div style={{ position: "absolute", inset: 0, background: colorBg, opacity: settings.ctaBgOpacity ?? 0.85 }} />
+                </>
+              )}
+              <div style={{ position: "relative", zIndex: 1 }}>
                 <h3 style={{ fontSize: "20px", fontWeight: 800, color: settings.ctaTextColor || "#ffffff", marginBottom: "6px", fontFamily: `'${settings.ctaTitleFont || "Plus Jakarta Sans"}', sans-serif` }}>{settings.ctaTitle || "Punya Ide Digital untuk Bisnis Anda?"}</h3>
                 <p style={{ fontSize: "14px", color: settings.ctaTextColor || "#ffffff", opacity: 0.9, fontFamily: `'${settings.ctaSubtitleFont || "Plus Jakarta Sans"}', sans-serif` }}>{settings.ctaSubtitle || "Mari wujudkan bersama Magnus System."}</p>
               </div>
-              <a href="#" style={{ padding: "12px 28px", background: "white", color: "#0D9488", borderRadius: "10px", fontWeight: 700, fontSize: "13px", textDecoration: "none", whiteSpace: "nowrap" }}>
+              <a href="#" style={{ position: "relative", zIndex: 1, padding: "12px 28px", background: "white", color: "#0D9488", borderRadius: "10px", fontWeight: 700, fontSize: "13px", textDecoration: "none", whiteSpace: "nowrap" }}>
                 {settings.ctaButtonText || "Konsultasi Gratis"} →
               </a>
             </div>
