@@ -12,6 +12,25 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
     }
 
+    // Jika Cloudinary dikonfigurasi (untuk Vercel), pakai Cloudinary agar permanen
+    const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
+    const apiKey = process.env.CLOUDINARY_API_KEY;
+    const apiSecret = process.env.CLOUDINARY_API_SECRET;
+    if (cloudName && apiKey && apiSecret) {
+      try {
+        const { v2: cloudinary } = await import("cloudinary");
+        cloudinary.config({ cloud_name: cloudName, api_key: apiKey, api_secret: apiSecret });
+        const arrayBuffer = await file.arrayBuffer();
+        const base64 = Buffer.from(arrayBuffer).toString("base64");
+        const dataUri = `data:${file.type || "image/jpeg"};base64,${base64}`;
+        const result = await cloudinary.uploader.upload(dataUri, { folder: "magnus" });
+        return NextResponse.json({ url: result.secure_url });
+      } catch (e) {
+        console.error("Cloudinary upload failed, fallback to local", e);
+      }
+    }
+
+    // Fallback lokal (untuk dev tanpa Cloudinary)
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
