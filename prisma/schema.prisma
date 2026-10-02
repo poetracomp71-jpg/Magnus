@@ -1,0 +1,145 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model SiteSettings {
+  id                Int      @id @default(1)
+  companyName       String?
+  tagline           String?
+  logoUrl           String?
+  navbarCaption     String?  @default("Magnus System")
+  navbarCaptionColor String? @default("#0D9488")
+  navbarCaptionGradient Boolean? @default(false)
+  navbarCaptionGradientTo String? @default("#14B8A6")
+  heroTitle         String?
+  heroSubtitle      String?
+  heroImage         String?
+  heroCtaText       String?
+  heroCtaLink       String?
+  primaryColor      String?  @default("#80cbc4")
+  secondaryColor    String?  @default("#f5f7f8")
+  heroColor         String?  @default("#F0FDFA")
+  heroTextColor     String?  @default("#0F172A")
+  heroBgImage       String?
+  heroBgOpacity     Float?   @default(0)
+  heroActive        Boolean  @default(true)
+  servicesColor     String?  @default("#FFFFFF")
+  servicesTextColor String?  @default("#0F172A")
+  servicesBgImage   String?
+  servicesBgOpacity Float?   @default(0)
+  servicesActive    Boolean  @default(true)
+  portfolioColor    String?  @default("#FFFFFF")
+  portfolioTextColor String? @default("#102638")
+  portfolioBgImage  String?
+  portfolioBgOpacity Float?  @default(0)
+  portfolioActive   Boolean  @default(true)
+  contactColor      String?  @default("#0D9488")
+  contactTextColor  String?  @default("#ffffff")
+  contactBgImage    String?
+  contactBgOpacity  Float?   @default(0)
+  contactActive     Boolean  @default(true)
+  contactBadge      String?  @default("HUBUNGI KAMI")
+  contactTitle      String?  @default("Mari Berdiskusi")
+  contactSubtitle   String?  @default("Ceritakan kebutuhan Anda, kami siap membantu.")
+  contactInfoColor  String?  @default("#0D9488")
+  footerColor       String?  @default("#FFFFFF")
+  footerTextColor   String?  @default("#64748B")
+  footerBgImage     String?
+  footerBgOpacity   Float?   @default(0)
+  footerActive      Boolean  @default(true)
+  aboutColor        String?
+  aboutTextColor    String?
+  aboutBgImage      String?
+  aboutBgOpacity    Float?   @default(0)
+  aboutActive       Boolean  @default(true)
+  ctaColor          String?  @default("#0D9488")
+  ctaTextColor      String?  @default("#ffffff")
+  ctaBgImage        String?
+  ctaBgOpacity      Float?   @default(0)
+  ctaActive         Boolean  @default(true)
+  ctaTitle          String?  @default("Punya Ide Digital untuk Bisnis Anda?")
+  ctaSubtitle       String?  @default("Mari wujudkan bersama Magnus System.")
+  ctaButtonText     String?  @default("Konsultasi Gratis")
+  ctaButtonLink     String?  @default("#contact-section")
+  clientsColor      String?
+  clientsTextColor  String?
+  clientsBgImage    String?
+  clientsBgOpacity  Float?   @default(0)
+  customersActive   Boolean  @default(true)
+  galleryActive     Boolean  @default(true)
+  phone             String?
+  email             String?
+  address           String?
+  whatsapp          String?
+  whatsappMessage   String?  @default("Halo Putra Comp, saya ingin bertanya tentang Magnus System.")
+  aboutTitle        String?
+  aboutSubtitle     String?
+  aboutDescription  String?
+  aboutImage        String?
+  servicesSubtitle  String?
+  servicesTitle     String?
+  servicesDescription String?
+  portfolioSubtitle String?
+  portfolioTitle    String?
+  portfolioDescription String?
+  footerDescription String?
+  footerCopyright   String?
+  socialInstagram   String?
+  socialLinkedin    String?
+  socialGithub      String?
+  socialWhatsapp    String?
+  seoTitle          String?
+  seoDescription    String?
+  seoKeywords       String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Service {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  icon        String?
+  image       String?
+  sortOrder   Int      @default(0)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  images      ServiceImage[]
+}
+
+model ServiceImage {
+  id        Int      @id @default(autoincrement())
+  serviceId Int
+  service   Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  imageUrl  String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model Portfolio {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  image       String?
+  category    String?
+  link        String?
+  sortOrder   Int      @default(0)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Customer {
+  id        Int      @id @default(autoincrement())
+  name      String
+  logoUrl   String?
+  sortOrder Int      @default(0)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
