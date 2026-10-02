@@ -122,10 +122,6 @@ export default function ThemePage() {
       { label: "Background Color", field: "clientsColor", defaultVal: "#FFFFFF" },
       { label: "Text Color", field: "clientsTextColor", defaultVal: "#0F172A" },
     ], bgImage: "clientsBgImage", bgOpacity: "clientsBgOpacity" },
-    { title: "📢 CTA Section", toggle: { label: "CTA Section", field: "ctaActive" }, fields: [
-      { label: "Background Color", field: "ctaColor", defaultVal: "#0D9488" },
-      { label: "Text Color", field: "ctaTextColor", defaultVal: "#ffffff" },
-    ], bgImage: "ctaBgImage", bgOpacity: "ctaBgOpacity" },
     { title: "📞 Contact Section", toggle: { label: "Contact Section", field: "contactActive" }, fields: [
       { label: "Background Color", field: "contactColor", defaultVal: "#F0FDFA" },
       { label: "Text Color", field: "contactTextColor", defaultVal: "#0F172A" },

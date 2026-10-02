@@ -117,14 +117,18 @@ export default async function HomePage() {
 
         {isCta && (
           <ScrollReveal animation="zoom-in" delay={50}>
-            <SectionBg bgColor={settings?.ctaColor} bgImage={settings?.ctaBgImage} bgOpacity={settings?.ctaBgOpacity} textColor={settings?.ctaTextColor}>
-              <Cta
-                title={settings?.ctaTitle}
-                subtitle={settings?.ctaSubtitle}
-                buttonText={settings?.ctaButtonText}
-                buttonLink={settings?.ctaButtonLink}
-              />
-            </SectionBg>
+            <Cta
+              title={settings?.ctaTitle}
+              subtitle={settings?.ctaSubtitle}
+              buttonText={settings?.ctaButtonText}
+              buttonLink={settings?.ctaButtonLink}
+              bgColor={settings?.ctaColor}
+              textColor={settings?.ctaTextColor}
+              gradient={settings?.ctaGradient}
+              gradientTo={settings?.ctaGradientTo}
+              titleFont={settings?.ctaTitleFont}
+              subtitleFont={settings?.ctaSubtitleFont}
+            />
           </ScrollReveal>
         )}
 

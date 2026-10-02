@@ -66,6 +66,10 @@ model SiteSettings {
   ctaSubtitle       String?  @default("Mari wujudkan bersama Magnus System.")
   ctaButtonText     String?  @default("Konsultasi Gratis")
   ctaButtonLink     String?  @default("#contact-section")
+  ctaGradient       Boolean? @default(false)
+  ctaGradientTo     String?  @default("#14B8A6")
+  ctaTitleFont      String?  @default("Plus Jakarta Sans")
+  ctaSubtitleFont   String?  @default("Plus Jakarta Sans")
   clientsColor      String?
   clientsTextColor  String?
   clientsBgImage    String?
