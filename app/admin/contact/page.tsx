@@ -73,6 +73,7 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
+      <div style={{ marginTop: "1.5rem" }}>
         <button onClick={handleSave} disabled={saving} style={{ padding: "0.75rem 2rem", background: "#80cbc4", color: "#ffffff", border: "none", borderRadius: "8px", fontWeight: 700, cursor: "pointer", opacity: saving ? 0.7 : 1 }}>
           {saved ? "✓ Tersimpan!" : saving ? "Menyimpan..." : "Simpan"}
         </button>

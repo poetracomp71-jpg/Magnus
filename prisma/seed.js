@@ -172,31 +172,11 @@ async function main() {
   }
 
   const customers = [
-    { name: "klapa manis",       logoUrl: null,
-      navbarCaption: "Magnus System",
-      navbarCaptionColor: "#0D9488",
-      navbarCaptionGradient: false,
-      navbarCaptionGradientTo: "#14B8A6", sortOrder: 0 },
-    { name: "CV Digital Solusi",       logoUrl: null,
-      navbarCaption: "Magnus System",
-      navbarCaptionColor: "#0D9488",
-      navbarCaptionGradient: false,
-      navbarCaptionGradientTo: "#14B8A6", sortOrder: 1 },
-    { name: "PT Maju Bersama",       logoUrl: null,
-      navbarCaption: "Magnus System",
-      navbarCaptionColor: "#0D9488",
-      navbarCaptionGradient: false,
-      navbarCaptionGradientTo: "#14B8A6", sortOrder: 2 },
-    { name: "Surya Abadi",       logoUrl: null,
-      navbarCaption: "Magnus System",
-      navbarCaptionColor: "#0D9488",
-      navbarCaptionGradient: false,
-      navbarCaptionGradientTo: "#14B8A6", sortOrder: 3 },
-    { name: "Nusantara Tech",       logoUrl: null,
-      navbarCaption: "Magnus System",
-      navbarCaptionColor: "#0D9488",
-      navbarCaptionGradient: false,
-      navbarCaptionGradientTo: "#14B8A6", sortOrder: 4 },
+    { name: "klapa manis",       logoUrl: null, sortOrder: 0 },
+    { name: "CV Digital Solusi",       logoUrl: null, sortOrder: 1 },
+    { name: "PT Maju Bersama",       logoUrl: null, sortOrder: 2 },
+    { name: "Surya Abadi",       logoUrl: null, sortOrder: 3 },
+    { name: "Nusantara Tech",       logoUrl: null, sortOrder: 4 },
   ];
 
   for (const c of customers) {

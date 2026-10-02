@@ -11,12 +11,12 @@ interface ClientsProps {
 }
 
 export default function Clients({ customers, sectionSubtitle }: ClientsProps) {
-  const defaultLogos = [
-    { name: "klapa manis", color: "#0D9488" },
-    { name: "CV Digital Solusi", color: "#0D9488" },
-    { name: "PT Maju Bersama", color: "#0D9488" },
-    { name: "Surya Abadi", color: "#0D9488" },
-    { name: "Nusantara Tech", color: "#0D9488" },
+  const defaultLogos: { name: string; color: string; logo: string | null }[] = [
+    { name: "klapa manis", color: "#0D9488", logo: null },
+    { name: "CV Digital Solusi", color: "#0D9488", logo: null },
+    { name: "PT Maju Bersama", color: "#0D9488", logo: null },
+    { name: "Surya Abadi", color: "#0D9488", logo: null },
+    { name: "Nusantara Tech", color: "#0D9488", logo: null },
   ];
 
   const displayLogos = customers.length > 0
